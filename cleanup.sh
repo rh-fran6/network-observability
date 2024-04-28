@@ -17,7 +17,7 @@ export LOKI_CLUSTER_ADMIN_USER="netobserve-admin-user"
 export LOKI_SECRET="loki-s3-secret"
 export LOKISTACK_NAME="loki-stack-lokistack"
 
-aws s3 rb s3://$S3_BUCKET --force
+aws s3 rb s3://$S3_BUCKET --force || true
 
 echo "Please enter Cluster Name:"
 read -r CLUSTER_NAME
@@ -38,7 +38,7 @@ trap handle_error ERR
 
 # Grab policy ARN
 echo "Retrieving IAM policy ARN..."
-POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName=='${POLICY_NAME}'].Arn" --output text)
+POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName=='${POLICY_NAME}'].Arn" --output text) || true
 
 if [[ -z "$POLICY_ARN" ]]; then
     echo "Policy $POLICY_NAME not found. "
@@ -50,15 +50,15 @@ rm -rf *.json
 
 # Detach policy from role
 echo "Detaching IAM policy from role..."
-aws iam detach-role-policy --role-name "$ROLE_NAME" --policy-arn "$POLICY_ARN"
+aws iam detach-role-policy --role-name "$ROLE_NAME" --policy-arn "$POLICY_ARN" || true
 
 # Delete IAM role
 echo "Deleting IAM role..."
-aws iam delete-role --role-name "$ROLE_NAME"
+aws iam delete-role --role-name "$ROLE_NAME" || true
 
 # Delete IAM policy
 echo "Deleting IAM policy..."
-aws iam delete-policy --policy-arn "$POLICY_ARN"
+aws iam delete-policy --policy-arn "$POLICY_ARN" || true
 
 # Deleting secret
 echo "Deleting secret..."

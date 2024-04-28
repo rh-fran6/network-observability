@@ -178,8 +178,6 @@ cat <<EOF | oc apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
-#   annotations:
-#     eks.amazonaws.com/role-arn: $ROLE_ARN
   name: $LOKI_SECRET
   namespace: $LOKI_NAMESPACE  
 stringData:
@@ -337,7 +335,7 @@ spec:
   agent:
     type: eBPF                                
     ebpf:
-      sampling: 50             ## For DNS Tracking, set to 1 for more accurate reporting               
+      sampling: 50                           
       logLevel: info
       privileged: true
       resources:
