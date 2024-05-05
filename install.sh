@@ -276,7 +276,7 @@ spec:
         maxEntriesLimitPerQuery: 10000
         maxQuerySeries: 3000
         queryTimeout: 3m
-  size: 1x.small 
+  size: 1x.extra-small
   managementState: Managed
   replicationFactor: 1 
   storage:
